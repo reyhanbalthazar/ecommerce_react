@@ -15,32 +15,73 @@
       "id": 2
     },
     {
-      "username": "",
-      "email": "",
-      "password": "",
-      "role": "User",
-      "id": 3
-    },
-    {
       "username": "asd",
       "email": "asd@mail.com",
       "password": "asd",
       "role": "User",
-      "id": 4
+      "id": 3
     },
     {
       "username": "testusername",
       "email": "test@mail.com",
       "password": "test",
       "role": "User",
-      "id": 5
+      "id": 4
     },
     {
       "username": "balth",
       "email": "balth@mail.com",
       "password": "balth",
       "role": "User",
+      "id": 5
+    },
+    {
+      "username": "",
+      "email": "",
+      "password": "",
+      "role": "User",
       "id": 6
+    },
+    {
+      "username": "",
+      "email": "",
+      "password": "",
+      "role": "User",
+      "id": 7
+    },
+    {
+      "username": "test1",
+      "email": "test1@mail.com",
+      "password": "test1",
+      "role": "user",
+      "status": "Active",
+      "id": 8
+    }
+  ],
+  "products": [
+    {
+      "nama": "IDALINNEA D",
+      "deskripsi": " Ritsleting yang tersembunyi membuat sarung mudah dilepas.  Sarung bantal dengan tampilan cermin karena memiliki pola yang sama di kedua sisi.  Katun adalah bahan alami lembut dan mudah dirawat yang dapat Anda cuci dengan mesin.",
+      "brand": "IKEA",
+      "kategori": "Perabotan",
+      "harga": 79000,
+      "stock": [
+        {
+          "id": null,
+          "type": "M",
+          "qty": 10
+        },
+        {
+          "id": null,
+          "type": "L",
+          "qty": 12
+        }
+      ],
+      "images": [
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810720_PE771385_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810719_PE771386_S4.jpg"
+      ],
+      "id": 1
     }
   ]
 }
