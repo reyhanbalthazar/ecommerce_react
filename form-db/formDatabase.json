@@ -1,0 +1,46 @@
+{
+  "dataUser": [
+    {
+      "id": 1,
+      "username": "reyhan",
+      "email": "reyhanbalthazarepsa@gmail.com",
+      "password": "123",
+      "role": "admin"
+    },
+    {
+      "username": "rey",
+      "email": "rey@mail.com",
+      "password": "qwe",
+      "role": "User",
+      "id": 2
+    },
+    {
+      "username": "",
+      "email": "",
+      "password": "",
+      "role": "User",
+      "id": 3
+    },
+    {
+      "username": "asd",
+      "email": "asd@mail.com",
+      "password": "asd",
+      "role": "User",
+      "id": 4
+    },
+    {
+      "username": "testusername",
+      "email": "test@mail.com",
+      "password": "test",
+      "role": "User",
+      "id": 5
+    },
+    {
+      "username": "balth",
+      "email": "balth@mail.com",
+      "password": "balth",
+      "role": "User",
+      "id": 6
+    }
+  ]
+}
