@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import TableData from './TableData';
 
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input } from 'reactstrap';
+import ModalDetail from './ModalDetail'
+import { productAction } from '../redux/actions';
+import { connect } from 'react-redux'
+
+import { Button, Table } from 'reactstrap';
 
 class ProductManagement extends React.Component {
     constructor(props) {
@@ -10,7 +13,8 @@ class ProductManagement extends React.Component {
         this.state = {
             selectedIdx: null,
             products: [],
-            modal: false
+            modalEditOpen: false,
+            detailProduk: {}
         }
         this.toggle = this.toggle.bind(this);
     }
@@ -38,15 +42,15 @@ class ProductManagement extends React.Component {
             .then((response) => {
                 console.log(response.data)
                 this.setState({ products: response.data })
+                this.props.productAction(response.data[0])
             }).catch((err) => {
                 console.log(err)
             })
     }
-    
-   
+
+
 
     printTable = () => {
-       
         return this.state.products.map((value, idx) => {
             return (
                 <tr>
@@ -57,69 +61,8 @@ class ProductManagement extends React.Component {
                     <td><img alt="..." width="100px" src={value.images[idx]} /></td>
                     <td>{value.harga}</td>
                     <td>
-                        <Button className="btn" type="button" data-toggle="modal" data-target="#detailModal" color="info" onClick={this.toggle}>
-                            Detail
-                        </Button>
-                        <Modal id="detailModal" isOpen={this.state.modal} toggle={this.toggle}>
-                            <ModalHeader toggle={this.toggle}>
-                                Detail Product
-                            </ModalHeader>
-                            <ModalBody>
-                                <FormGroup>
-                                    <Label for="nama-produk">Nama Product</Label>
-                                    <Input type="text" className="form-control" id="nama-produk" defaultValue={value.nama} onChange={(event) => this.handleInput(event.target.value, "namaProdukModal")} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="deskripsi-produk">Deskripsi Produk</Label>
-                                    <Input type="text" id="deskripsi-produk" defaultValue={value.deskripsi} onChange={(event) => this.handleInput(event.target.value, "deskripsiProdukModal")} />
-                                </FormGroup>
-                                <FormGroup className="d-flex">
-                                    <FormGroup className="m-1">
-                                        <Label for="brand-produk">Brand</Label>
-                                        <Input type="text" id="brand-produk" defaultValue={value.brand} onChange={(event) => this.handleInput(event.target.value, "brandProdukModal")} />
-                                    </FormGroup>
-                                    <FormGroup className="m-1">
-                                        <Label for="kategori-produk">Kategori</Label>
-                                        <Input type="text" id="kategori-produk" defaultValue={value.kategori} onChange={(event) => this.handleInput(event.target.value, "kategoriProdukModal")} />
-                                    </FormGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="harga-produk">Harga</Label>
-                                    <Input type="number" id="harga-produk" defaultValue={value.harga} onChange={(event) => this.handleInput(event.target.value, "hargaProdukModal")} />
-                                </FormGroup>
-                                <Label>Stock</Label>
-                                <FormGroup className="d-flex">
-                                    <FormGroup className="m-1">
-                                        <Input type="text" id="harga-produk" defaultValue={value.stock[0].type} onChange={(event) => this.handleInput(event.target.value, "stockTypeProdukModal")} />
-                                        <Input type="text" id="harga-produk" defaultValue={value.stock[1].type} onChange={(event) => this.handleInput(event.target.value, "stockTypeProdukModal")} />
-                                    </FormGroup>
-                                    <FormGroup className="m-1">
-                                        <Input type="number" id="harga-produk" defaultValue={value.stock[0].qty} onChange={(event) => this.handleInput(event.target.value, "stockQtyProdukModal")} />
-                                        <Input type="number" id="harga-produk" defaultValue={value.stock[1].qty} onChange={(event) => this.handleInput(event.target.value, "stockQtyProdukModal")} />
-                                    </FormGroup>
-                                    <FormGroup className="m-1">
-                                        <Button>Delete</Button>
-                                        <Button>Delete</Button>
-                                    </FormGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="images-produk">Images</Label>
-                                    <Input type="text" id="images-produk" defaultValue={value.images[0]} onChange={(event) => this.handleInput(event.target.value, "imagesProdukModal")} />
-                                    <Input type="text" id="images-produk" defaultValue={value.images[1]} onChange={(event) => this.handleInput(event.target.value, "imagesProdukModal")} />
-                                </FormGroup>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={this.toggle} >
-                                    Edit
-                                </Button>
-                                {' '}
-                                <Button onClick={this.toggle}>
-                                    Close
-                                </Button>
-                            </ModalFooter>
-                        </Modal>
-                        {/* <button className="btn btn-warning" type="button" data-toggle="modal" data-target="#detailModal" onClick={() => this.btDetail(idx)}>Detail</button> */}
-                        <button>Delete</button>
+                        <Button type="button" size="sm" color="warning" onClick={() => this.setState({ detailProduk: value, modalEditOpen: !this.state.modalEditOpen })}>Detail</Button>
+                        <Button size="sm" color="danger" onClick={() => this.onBtDelete(value.idproduct)}>Delete</Button>
                     </td>
                 </tr>
             )
@@ -129,25 +72,32 @@ class ProductManagement extends React.Component {
     render() {
         return (
             <div>
-                <div>
-                    <TableData cetak={this.printTable()} />
-                    {/* {
-                        this.state.products.length > 0 && this.state.selectedIdx != null ?
-                            <ModalDetail
-                                nama={this.state.products[this.state.selectedIdx].nama}
-                                deskripsi={this.state.products[this.state.selectedIdx].deskripsi}
-                                brand={this.state.products[this.state.selectedIdx].brand}
-                                kategori={this.state.products[this.state.selectedIdx].kategori}
-                                harga={this.state.products[this.state.selectedIdx].harga}
-                                stock={this.state.products[this.state.selectedIdx].stock}
-                                images={this.state.products[this.state.selectedIdx].images}
-                                idx={this.state.selectedIdx.idx}
-                            /> : null
-                    } */}
-                </div>
+                <ModalDetail
+                    modalOpen={this.state.modalEditOpen}
+                    detailProduk={this.state.detailProduk}
+                    btClose={() => this.setState({ modalEditOpen: !this.state.modalEditOpen })}
+                />
+                <Table>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Kategori</th>
+                            <th scope="col">Gambar</th>
+                            <th scope="col">Harga</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.printTable()}
+                        {/* <TableData cetak={this.printTable()} /> */}
+                    </tbody>
+                </Table>
+
             </div>
         );
     }
 }
 
-export default ProductManagement;
+export default connect(null, { productAction })(ProductManagement);

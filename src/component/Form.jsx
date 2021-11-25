@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { loginAction } from '../redux/actions';
+import { connect } from 'react-redux'
 
 const API_URL = "http://localhost:2000"
 
@@ -23,6 +25,11 @@ class Form extends React.Component {
         }
     }
 
+    handleInput = (value, propState) => {
+        console.log(value, propState)
+        this.setState({ [propState]: value })
+    }
+
     componentDidMount() {
         this.getData();
     }
@@ -37,10 +44,6 @@ class Form extends React.Component {
             })
     }
 
-    handleInput = (value, propState) => {
-        console.log(value, propState)
-        this.setState({ [propState]: value })
-    }
 
     btRegis = () => {
         if (this.usernameRegis.value === "" || this.emailRegis.value === "" || this.passwordRegis.value === "" || this.confPasswordRegis === "") {
@@ -89,46 +92,15 @@ class Form extends React.Component {
     }
 
     btMasuk = () => {
-        // let { dataUser, emailLogin, passwordLogin } = this.state
-        // // GAGAL KALO i undefined
-        // // for(let i=0; i<=dataUser.length; i++){
-        // //     if(emailLogin === dataUser[i].email){
-        // //         if(passwordLogin === dataUser[i].password){
-        // //             alert(`berhasil login sebagai ${dataUser[i].role} ${dataUser[i].username}`)
-        // //         } else if (passwordLogin !== dataUser[i].password){
-        // //             alert(`Password Salah`)
-        // //         } 
-        // //         break;
-        // //     }
-        // // }
-        // let index = null;
-        // for (let i = 0; i < dataUser.length; i++) {
-        //     if (dataUser[i].email === emailLogin && dataUser[i].password === passwordLogin) {
-        //         index = i
-        //     }
-        // }
-        // if (index != null) {
-        //     alert(`${dataUser[index].username}, Login Berhasil`)
-        //     this.setState({
-        //         emailLogin: "",
-        //         passwordLogin: "",
-        //     })
-        // } else {
-        //     alert("Login Gagal")
-        // }
-
-        axios.get(`${API_URL}/users?email=${this.state.emailLogin}&password=${this.passwordLogin.value}`)
+        axios.get(`${API_URL}/dataUser?email=${this.state.emailLogin}&password=${this.passwordLogin.value}`)
             .then((response) => {
                 console.log(response.data)
+                this.props.loginAction(response.data[0])
             }).catch((err) => {
                 console.log(err)
             })
     }
 
-    handleInput = (value, propState) => {
-        console.log(value, propState)
-        this.setState({ [propState]: value })
-    }
 
     showHidePasswordLogin = () => {
         if (this.state.logPassType === "password") {
@@ -143,6 +115,7 @@ class Form extends React.Component {
             })
         }
     }
+
     showHidePasswordRegist = () => {
         if (this.state.regPassType === "password") {
             this.setState({
@@ -186,13 +159,13 @@ class Form extends React.Component {
                             <Label for="textPassword">Password</Label>
                             <InputGroup>
                                 <Input type={this.state.logPassType} id="textPassword" placeholder="Masukkan Password Anda"
-                                    innerRef={(element) => this.passwordLogin = element} onChange={(event) => this.handleInput(event.target.value, "passwordLogin")}/>
+                                    innerRef={(element) => this.passwordLogin = element} onChange={(event) => this.handleInput(event.target.value, "passwordLogin")} />
                                 <InputGroupText style={{ cursor: "pointer" }} onClick={this.btShowPassLogin}>
                                     {this.state.logPassShow}
                                 </InputGroupText>
                             </InputGroup>
                         </FormGroup>
-                        <Button color="primary" style={{ width: "100%" }} onClick={this.btLogin}>Masuk</Button>
+                        <Button color="primary" style={{ width: "100%" }} onClick={this.btMasuk}>Masuk</Button>
                     </div>
                     <div className="col-6 p-5">
                         <h3 className="text-center py-3">Silahkan buat akun anda</h3>
@@ -296,4 +269,4 @@ class Form extends React.Component {
     // }
 }
 
-export default Form;
+export default connect(null, { loginAction })(Form);
