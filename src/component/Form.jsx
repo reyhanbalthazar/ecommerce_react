@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { loginAction } from '../redux/actions';
 import { connect } from 'react-redux'
+import { Navigate } from 'react-router-dom'
 
 const API_URL = "http://localhost:2000"
 
@@ -95,6 +96,7 @@ class Form extends React.Component {
         axios.get(`${API_URL}/dataUser?email=${this.state.emailLogin}&password=${this.passwordLogin.value}`)
             .then((response) => {
                 console.log(response.data)
+                localStorage.setItem("data", JSON.stringify(response.data[0]))
                 this.props.loginAction(response.data[0])
             }).catch((err) => {
                 console.log(err)
@@ -131,6 +133,10 @@ class Form extends React.Component {
     }
 
     render() {
+        if (this.props.iduser) {
+            // redirect ke page yang dituju
+            return <Navigate to="/" />
+        }
         return (
             <Container className="p-5">
                 <div>
@@ -207,6 +213,8 @@ class Form extends React.Component {
         );
     }
 
+    
+
     // render() {
     //     return (
     //         <div className="m-3 row">
@@ -269,4 +277,10 @@ class Form extends React.Component {
     // }
 }
 
-export default connect(null, { loginAction })(Form);
+const mapToProps = (state) => {
+    return {
+        iduser: state.userReducer.id
+    }
+}
+
+export default connect(mapToProps, { loginAction })(Form);

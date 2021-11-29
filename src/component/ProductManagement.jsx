@@ -6,6 +6,7 @@ import { productAction } from '../redux/actions';
 import { connect } from 'react-redux'
 
 import { Button, Table } from 'reactstrap';
+import ModalAdd from './ModalAdd';
 
 class ProductManagement extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class ProductManagement extends React.Component {
             selectedIdx: null,
             products: [],
             modalEditOpen: false,
+            modalAddOpen: false,
             detailProduk: {}
         }
         this.toggle = this.toggle.bind(this);
@@ -76,7 +78,12 @@ class ProductManagement extends React.Component {
                     modalOpen={this.state.modalEditOpen}
                     detailProduk={this.state.detailProduk}
                     btClose={() => this.setState({ modalEditOpen: !this.state.modalEditOpen })}
+                    />
+                <ModalAdd
+                    modalOpen={this.state.modalAddOpen}
+                    btClose={() => this.setState({ modalAddOpen: !this.state.modalAddOpen })}
                 />
+                <Button type="button" size="sm" color="info" onClick={() => this.setState({modalAddOpen: !this.state.modalAddOpen})}>ADD</Button>
                 <Table>
                     <thead>
                         <tr>
@@ -91,7 +98,6 @@ class ProductManagement extends React.Component {
                     </thead>
                     <tbody>
                         {this.printTable()}
-                        {/* <TableData cetak={this.printTable()} /> */}
                     </tbody>
                 </Table>
 
