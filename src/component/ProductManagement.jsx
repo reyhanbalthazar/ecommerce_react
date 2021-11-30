@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 import { Button, Table } from 'reactstrap';
 import ModalAdd from './ModalAdd';
 
+import { API_URL } from '../helper';
+
 class ProductManagement extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,8 @@ class ProductManagement extends React.Component {
             products: [],
             modalEditOpen: false,
             modalAddOpen: false,
-            detailProduk: {}
+            detailProduk: {},
+            thumbnailIdx: null
         }
         this.toggle = this.toggle.bind(this);
     }
@@ -50,7 +53,30 @@ class ProductManagement extends React.Component {
             })
     }
 
-
+    onBtAdd = () => {
+        let data = {
+            nama: this.inNama.value,
+            brand: this.inBrand.value,
+            deskripsi: this.inDeskripsi.value,
+            kategori: this.inKategori.value,
+            harga: parseInt(this.inHarga.value),
+            stock: this.state.stock,
+            images: this.state.images
+        }
+        console.log(this.state.images)
+        if (data.nama == "" || data.brand == "" || data.deskripsi == "" || data.kategori == "" || data.stock.length == 0 || data.images.length == 0) {
+            alert("Isi semua form")
+        } else {
+            axios.post(API_URL + '/products', data)
+                .then(res => {
+                    console.log(res.data)
+                    this.props.getData()
+                    alert('Add Product Success')
+                }).catch(err => {
+                    console.log(err)
+                })
+        }
+    }
 
     printTable = () => {
         return this.state.products.map((value, idx) => {
@@ -60,7 +86,20 @@ class ProductManagement extends React.Component {
                     <td>{value.nama}</td>
                     <td>{value.brand}</td>
                     <td>{value.kategori}</td>
-                    <td><img alt="..." width="100px" src={value.images[idx]} /></td>
+                    <td style={{ width: '20vw', textAlign: 'center' }}>
+                        {
+                            this.state.selectedIdx == idx ?
+                                <img src={value.images[this.state.thumbnailIdx]} width="200px" alt={value.nama + idx} />
+                                :
+                                <img src={value.images[0]} width="200px" alt={value.nama + idx} />
+                        }
+                        <div>
+                            {value.images.map((val, index) => {
+                                return <img src={val} width="100px" alt={value.nama + idx} 
+                                onClick={()=> this.setState({thumbnailIdx: index, selectedIdx:idx})} />
+                            })}
+                        </div>
+                    </td>
                     <td>{value.harga}</td>
                     <td>
                         <Button type="button" size="sm" color="warning" onClick={() => this.setState({ detailProduk: value, modalEditOpen: !this.state.modalEditOpen })}>Detail</Button>
@@ -78,12 +117,13 @@ class ProductManagement extends React.Component {
                     modalOpen={this.state.modalEditOpen}
                     detailProduk={this.state.detailProduk}
                     btClose={() => this.setState({ modalEditOpen: !this.state.modalEditOpen })}
-                    />
+                />
                 <ModalAdd
                     modalOpen={this.state.modalAddOpen}
                     btClose={() => this.setState({ modalAddOpen: !this.state.modalAddOpen })}
+                    getData={this.getData}
                 />
-                <Button type="button" size="sm" color="info" onClick={() => this.setState({modalAddOpen: !this.state.modalAddOpen})}>ADD</Button>
+                <Button type="button" size="sm" color="info" onClick={() => this.setState({ modalAddOpen: !this.state.modalAddOpen })}>ADD</Button>
                 <Table>
                     <thead>
                         <tr>
