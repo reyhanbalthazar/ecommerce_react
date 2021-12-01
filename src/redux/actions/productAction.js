@@ -1,4 +1,3 @@
-
 export const productAction = (data) => {
     console.log("DATA DARI UI/COMPONENT ==>>", data)
     return {

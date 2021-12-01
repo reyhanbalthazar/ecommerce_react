@@ -5,13 +5,12 @@ import NavbarComponent from './component/Navbar';
 import { Route, Routes } from 'react-router';
 import HomePage from './pages/HomePage';
 import ProductManagement from './component/ProductManagement';
-import axios from 'axios';
+
 import { connect } from 'react-redux';
 import { loginAction, getProductsAction } from './redux/actions';
 import ProductsPage from './pages/ProductsPage';
-import { API_URL } from './helper';
+
 import ProductDetail from './pages/ProductDetail';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class App extends React.Component {
@@ -24,33 +23,66 @@ class App extends React.Component {
 
   componentDidMount() {
     this.keepLogin()
-    this.getProducts()
+    this.props.getProductsAction()
   }
 
-  keepLogin = () => {
-    let local = JSON.parse(localStorage.getItem("data"));
-    if (local) {
-      axios.get(`${API_URL}/dataUser?email=${local.email}&password${local.password}`)
-        .then((res) => {
-          console.log("keepLogin berhasil ==>", res.data)
+  keepLogin = async () => {
+    try {
+      let local = localStorage.getItem("data");
+      if (local) {
+        // re-assign variable local dengan JSON parse
+        local = JSON.parse(local)
+        let res = await this.props.loginAction(local.email, local.password)
+        if (res.success) {
           this.setState({ loading: false })
-          this.props.loginAction(res.data[0])
-        }).catch((err) => {
-          console.log(err)
-        })
-    } else {
+        }
+      } else {
+        this.setState({ loading: false })
+      }
+    } catch (error) {
+      console.log(error)
       this.setState({ loading: false })
     }
   }
 
-  getProducts = () => {
-    axios.get(`${API_URL}/products`)
-      .then((response) => {
-        this.props.getProductsAction(response.data)
-      }).catch((err) => {
-        console.log(err)
-      })
-  }
+  // keepLogin = () => {
+  //   let local = JSON.parse(localStorage.getItem("data"));
+  //   if (local) {
+  //     axios.get(`${API_URL}/dataUser?email=${local.email}&password${local.password}`)
+  //       .then((res) => {
+  //         console.log("keepLogin berhasil ==>", res.data)
+  //         this.setState({ loading: false })
+  //         this.props.loginAction(res.data[0])
+  //       }).catch((err) => {
+  //         console.log(err)
+  //       })
+  //   } else {
+  //     this.setState({ loading: false })
+  //   }
+  // }
+
+  // getProducts = async () => {
+  //   try {
+  //     let local = localStorage.getItem("data");
+  //     if (local) {
+  //       local = JSON.parse(local)
+  //       let res = await this.props.getProductsAction()
+  //       if (res.success) {
+  //         this.setState({ loading: false })
+  //       }
+  //     } else {
+  //       this.setState({ loading: false })
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   // axios.get(`${API_URL}/products`)
+  //   //   .then((response) => {
+  //   //     this.props.getProductsAction(response.data)
+  //   //   }).catch((err) => {
+  //   //     console.log(err)
+  //   //   })
+  // }
 
   render() {
     return (

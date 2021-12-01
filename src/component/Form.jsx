@@ -45,7 +45,6 @@ class Form extends React.Component {
             })
     }
 
-
     btRegis = () => {
         if (this.usernameRegis.value === "" || this.emailRegis.value === "" || this.passwordRegis.value === "" || this.confPasswordRegis === "") {
             this.setState({
@@ -93,19 +92,12 @@ class Form extends React.Component {
     }
 
     btMasuk = () => {
-        axios.get(`${API_URL}/dataUser?email=${this.state.emailLogin}&password=${this.passwordLogin.value}`)
-            .then((response) => {
-                console.log(response.data)
-                localStorage.setItem("data", JSON.stringify(response.data[0]))
-                this.props.loginAction(response.data[0])
-            }).catch((err) => {
-                console.log(err)
-            })
+        this.props.loginAction(this.state.emailLogin, this.passwordLogin.value)
     }
 
 
-    showHidePasswordLogin = () => {
-        if (this.state.logPassType === "password") {
+    btShowPassLogin = () => {
+        if (this.state.logPassType == "password") {
             this.setState({
                 logPassShow: "Hide",
                 logPassType: "text"
@@ -118,8 +110,8 @@ class Form extends React.Component {
         }
     }
 
-    showHidePasswordRegist = () => {
-        if (this.state.regPassType === "password") {
+    btShowPassRegis = () => {
+        if (this.state.regPassType == "password") {
             this.setState({
                 regPassShow: "Hide",
                 regPassType: "text"
@@ -213,7 +205,7 @@ class Form extends React.Component {
         );
     }
 
-    
+
 
     // render() {
     //     return (

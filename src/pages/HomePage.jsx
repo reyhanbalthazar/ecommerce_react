@@ -7,7 +7,7 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            products:[]
+            products: []
         }
     }
 
@@ -28,31 +28,31 @@ class HomePage extends React.Component {
 
     printCarousel = () => {
         return (
-            <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                <ol className="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                 </ol>
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <img src="https://images.unsplash.com/photo-1633114129669-78b1ff09902b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" className="d-block w-100" alt="..." />
-                    </div>
-                    <div className="carousel-item">
-                        <img src="https://images.unsplash.com/photo-1633113088983-12fb3b2fe0ac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" className="d-block w-100" alt="..." />
-                    </div>
-                    <div className="carousel-item">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
                         <img src="https://images.unsplash.com/photo-1633114127824-14b3207d7d74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwyMXx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60" className="d-block w-100" alt="..." />
                     </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1633113088983-12fb3b2fe0ac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" className="d-block w-100" alt="..." />
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1633114129669-78b1ff09902b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" className="d-block w-100" alt="..." />
+                    </div>
                 </div>
-                <button className="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Previous</span>
-                </button>
-                <button className="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Next</span>
-                </button>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         )
     }
@@ -75,7 +75,7 @@ class HomePage extends React.Component {
                             </div>
                         </div>
                         <div className="col-md-5" style={{ marginRight: "auto" }}>
-                            <img width="500px" height="500px" src={value.images[0]}/>
+                            <img width="500px" height="500px" src={value.images[0]} />
                         </div>
                     </div>
                     {/*  END OF FEATURETTE 1 */}
