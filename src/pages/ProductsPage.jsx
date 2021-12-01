@@ -52,11 +52,34 @@ class ProductsPage extends React.Component {
         this.setState({ page: 1 })
     }
 
-    btReset =()=>{
+    btReset = () => {
         this.props.getProductsAction()
-        this.inSearchName.value=""
-        this.inSearchMinimum.value=null
-        this.inSearchMaximum.value=null
+        this.inSearchName.value = ""
+        this.inSearchMinimum.value = null
+        this.inSearchMaximum.value = null
+    }
+
+    btSort = () => {
+        console.log(this.inSearchSort.value)
+        if (this.inSearchSort.value == "harga-asc") {
+            this.props.getProductsAction({
+                hargaAsc: this.inSearchSort.value
+            })
+        } else if (this.inSearchSort.value == "harga-desc") {
+            this.props.getProductsAction({
+                hargaDesc: this.inSearchSort.value
+            })
+        } else if (this.inSearchSort.value == "nama-asc") {
+            this.props.getProductsAction({
+                namaAsc: this.inSearchSort.value
+            })
+        } else if (this.inSearchSort.value == "nama-desc") {
+            this.props.getProductsAction({
+                namaDesc: this.inSearchSort.value
+            })
+        } else {
+            this.props.getProductsAction()
+        }
     }
 
     render() {
@@ -84,13 +107,14 @@ class ProductsPage extends React.Component {
                                     innerRef={(element) => this.inSearchMaximum = element} />
                             </InputGroup>
 
-                            <Input type="select" style={{ width: "250px", float: "right" }}>
+                            <Input type="select" style={{ width: "250px", float: "right" }} innerRef={(element) => this.inSearchSort = element}>
                                 <option value="harga-asc">Harga Asc</option>
                                 <option value="harga-desc">Harga Desc</option>
                                 <option value="nama-asc">A-Z</option>
                                 <option value="nama-desc">Z-A</option>
                                 <option value="id-asc">Reset</option>
                             </Input>
+                            <Button color="primary" onClick={this.btSort}>Sort</Button>
                         </div>
                         <div style={{ float: "right", marginTop: "5px" }}>
                             <Button outline color="warning" onClick={this.btReset}>Reset</Button>

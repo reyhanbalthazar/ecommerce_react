@@ -17,6 +17,26 @@ export const getProductsAction = (search = null, minimum, maximum) => {
                 console.log("cek")
                 res = await axios.get(`${API_URL}/products`)
             }
+
+            if (search) {
+                if (search.hargaAsc == "harga-asc") {
+                    console.log("cek", search.hargaAsc)
+                    res = await axios.get(`${API_URL}/products?_sort=harga&_order=asc`)
+                }
+                if (search.hargaDesc) {
+                    console.log("cek", search.hargaDesc)
+                    res = await axios.get(`${API_URL}/products?_sort=harga&_order=desc`)
+                }
+                if (search.namaAsc) {
+                    console.log("cek", search.hargaAsc)
+                    res = await axios.get(`${API_URL}/products?_sort=nama&_order=asc`)
+                }
+                if (search.namaDesc) {
+                    console.log("cek", search.hargaDesc)
+                    res = await axios.get(`${API_URL}/products?_sort=nama&_order=desc`)
+                }
+            }
+
             // cara 2
             // res = await axios.get(`${API_URL}/products${search ? `?nama=${search}` : ``}`)
             dispatch({
