@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup, Card, CardBody, CardImg, CardTitle, Input, InputGroup, InputGroupText } from 'reactstrap'
+import { Button, ButtonGroup, Card, CardBody, CardImg, CardTitle, Input, InputGroup, InputGroupText, Label } from 'reactstrap'
 import { connect } from 'react-redux'
 import { getProductsAction } from '../redux/actions';
 import { Link } from 'react-router-dom';
@@ -8,8 +8,10 @@ class ProductsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 1
+            page: 1,
+
         }
+
     }
 
     printProducts = () => {
@@ -46,8 +48,15 @@ class ProductsPage extends React.Component {
     }
 
     btSearch = () => {
-        this.props.getProductsAction(this.inSearchName.value)
+        this.props.getProductsAction(this.inSearchName.value, this.inSearchMinimum.value, this.inSearchMaximum.value)
         this.setState({ page: 1 })
+    }
+
+    btReset =()=>{
+        this.props.getProductsAction()
+        this.inSearchName.value=""
+        this.inSearchMinimum.value=null
+        this.inSearchMaximum.value=null
     }
 
     render() {
@@ -55,13 +64,15 @@ class ProductsPage extends React.Component {
             <div className="pt-5">
                 <div className="container">
                     <div className="p-5 shadow p-3 mb-5 bg-white rounded">
+                        <div className="d-flex ">
+                            <Label>Nama</Label>
+                            <Label className="col-7">Harga</Label>
+                            <Label className="col-6">Sort</Label>
+                        </div>
                         <div style={{ display: "flex", justifyContent: "flex-end" }}>
                             <InputGroup style={{ width: "350px" }}>
                                 <Input type="text" id="text" placeholder="Cari Produk"
                                     innerRef={(element) => this.inSearchName = element} />
-                                <InputGroupText style={{ cursor: "pointer" }} onClick={this.btSearch} >
-                                    Search
-                                </InputGroupText>
                             </InputGroup>
 
                             <InputGroup style={{ width: "350px", marginLeft: "100px" }}>
@@ -81,9 +92,9 @@ class ProductsPage extends React.Component {
                                 <option value="id-asc">Reset</option>
                             </Input>
                         </div>
-                        <div style={{float:"right", marginTop:"5px"}}>
-                            <Button outline color="warning" onClick={() => this.props.getProductsAction()}>Reset</Button>
-                            <Button color="primary" onClick={() => this.props.getProductsAction()}>Filter</Button>
+                        <div style={{ float: "right", marginTop: "5px" }}>
+                            <Button outline color="warning" onClick={this.btReset}>Reset</Button>
+                            <Button color="primary" onClick={this.btSearch}>Filter</Button>
                         </div>
                     </div>
                     <div className="row">
