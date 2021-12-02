@@ -126,7 +126,7 @@ class ProductManagement extends React.Component {
                             })}
                         </div>
                     </td>
-                    <td>{value.harga}</td>
+                    <td>{value.harga.toLocaleString()}</td>
                     <td>
                         <Button type="button" size="sm" color="warning" onClick={() => this.setState({ detailProduk: value, modalEditOpen: !this.state.modalEditOpen })}>Detail</Button>
                         <Button size="sm" color="danger" onClick={() => this.onBtDelete(value.id)}>Delete</Button>
@@ -232,7 +232,7 @@ class ProductManagement extends React.Component {
                         </div>
                     </div>
 
-                    <div className="col-md-9" style={{ width: "60vw" }}>
+                    <div className="col-md-9 shadow mb-5 bg-white rounded" style={{ width: "60vw" }}>
                         <Table>
                             <thead>
                                 <tr>
