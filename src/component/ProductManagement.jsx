@@ -232,7 +232,7 @@ class ProductManagement extends React.Component {
                         </div>
                     </div>
 
-                    <div className="col-md-9 shadow mb-5 bg-white rounded" style={{ width: "60vw" }}>
+                    <div className="col-md-9 shadow mb-5 bg-white rounded" style={{ width: "800px", marginLeft:"1vw" }}>
                         <Table>
                             <thead>
                                 <tr>
