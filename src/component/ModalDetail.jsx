@@ -1,12 +1,16 @@
+import axios from 'axios';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { API_URL } from '../helper';
+import { getProductsAction } from '../redux/actions'
 
 class ModalEditProduct extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            stock: props.detailProduk.stock,
-            images: props.detailProduk.images,
+            stock: [],
+            images: [],
             edit: false
         }
     }
@@ -35,6 +39,44 @@ class ModalEditProduct extends React.Component {
                 return <Input disabled={!this.state.edit} type="text" defaultValue={item} placeholder={`Images-${index + 1}`} onChange={(e) => this.handleImages(e, index)} />
             })
         }
+    }
+
+    btSave = () => {
+        let data = {
+            nama: this.inNama.value,
+            brand: this.inBrand.value,
+            kategori: this.inKategori.value,
+            deskripsi: this.inDeskripsi.value,
+            harga: this.inHarga.value,
+            stock: this.state.stock.length == 0 ? this.props.detailProduk.stock : this.state.stock,
+            images: this.state.images.length == 0 ? this.props.detailProduk.images : this.state.images
+        }
+        console.log("TESTING SAVE : ", data)
+        axios.patch(`${API_URL}/products/${this.props.detailProduk.id}`, data)
+            .then((res) => {
+                this.props.getProductsAction();
+                this.props.btClose()
+                this.setState({ stock: [], images: [], edit: !this.state.edit })
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
+
+    handleImages = (e, index) => {
+        let temp = [...this.props.detailProduk.images]
+        temp[index] = e.target.value
+        this.setState({ images: temp })
+    }
+
+    handleType = (e, index) => {
+        let temp = [...this.props.detailProduk.stock];
+        temp[index].type = e.target.value
+        this.setState({ stock: temp })
+    }
+    handleStock = (e, index) => {
+        let temp = [...this.props.detailProduk.stock];
+        temp[index].stock = e.target.value
+        this.setState({ stock: temp })
     }
 
     render() {
@@ -81,7 +123,7 @@ class ModalEditProduct extends React.Component {
                 <ModalFooter>
                     {
                         this.state.edit ?
-                            <Button type="button" color="primary" onClick={() => this.setState({ edit: !this.state.edit })}>Save</Button>
+                            <Button type="button" color="primary" onClick={this.btSave}>Save</Button>
                             : <Button type="button" color="primary" onClick={() => this.setState({ edit: !this.state.edit })}>Edit</Button>
                     }
                     <Button color="secondary" onClick={() => {
@@ -94,7 +136,7 @@ class ModalEditProduct extends React.Component {
     }
 }
 
-export default ModalEditProduct;
+export default connect(null, { getProductsAction })(ModalEditProduct);
 
 // import React from 'react';
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input } from 'reactstrap';

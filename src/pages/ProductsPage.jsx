@@ -9,9 +9,7 @@ class ProductsPage extends React.Component {
         super(props);
         this.state = {
             page: 1,
-
         }
-
     }
 
     printProducts = () => {
@@ -86,43 +84,45 @@ class ProductsPage extends React.Component {
         return (
             <div className="pt-5">
                 <div className="container">
-                    <div className="p-5 shadow p-3 mb-5 bg-white rounded">
-                        <div className="d-flex ">
-                            <Label>Nama</Label>
-                            <Label className="col-7">Harga</Label>
-                            <Label className="col-6">Sort</Label>
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                            <InputGroup style={{ width: "350px" }}>
-                                <Input type="text" id="text" placeholder="Cari Produk"
-                                    innerRef={(element) => this.inSearchName = element} />
-                            </InputGroup>
-
-                            <InputGroup style={{ width: "350px", marginLeft: "100px" }}>
-                                <Input type="number" id="minimum" placeholder="Minimum"
-                                    innerRef={(element) => this.inSearchMinimum = element} />
-                            </InputGroup>
-                            <InputGroup style={{ width: "350px", marginRight: "100px" }}>
-                                <Input type="number" id="maximum" placeholder="Maximum"
-                                    innerRef={(element) => this.inSearchMaximum = element} />
-                            </InputGroup>
-
-                            <Input type="select" style={{ width: "250px", float: "right" }} innerRef={(element) => this.inSearchSort = element}>
-                                <option value="harga-asc">Harga Asc</option>
-                                <option value="harga-desc">Harga Desc</option>
-                                <option value="nama-asc">A-Z</option>
-                                <option value="nama-desc">Z-A</option>
-                                <option value="id-asc">Reset</option>
-                            </Input>
-                            <Button color="primary" onClick={this.btSort}>Sort</Button>
-                        </div>
-                        <div style={{ float: "right", marginTop: "5px" }}>
-                            <Button outline color="warning" onClick={this.btReset}>Reset</Button>
-                            <Button color="primary" onClick={this.btSearch}>Filter</Button>
-                        </div>
-                    </div>
                     <div className="row">
+                        <div className="row md-5">
+                        <div className="p-5 shadow p-3 mb-5 bg-white rounded">
+                            <div className="d-flex ">
+                                <Label>Nama</Label>
+                                <Label className="col-6">Harga</Label>
+                                <Label className="col-6">Sort</Label>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                                <InputGroup style={{ width: "350px", float: "left" }}>
+                                    <Input type="text" id="text" placeholder="Cari Produk"
+                                        innerRef={(element) => this.inSearchName = element} />
+                                </InputGroup>
+
+                                <InputGroup style={{ width: "350px", marginLeft: "1vw" }}>
+                                    <Input type="number" id="minimum" placeholder="Minimum"
+                                        innerRef={(element) => this.inSearchMinimum = element} />
+                                </InputGroup>
+                                <InputGroup style={{ width: "350px", marginRight: "1vw" }}>
+                                    <Input type="number" id="maximum" placeholder="Maximum"
+                                        innerRef={(element) => this.inSearchMaximum = element} />
+                                </InputGroup>
+
+                                <Input type="select" style={{ width: "250px", float: "right" }} innerRef={(element) => this.inSearchSort = element}>
+                                    <option value="harga-asc">Harga Asc</option>
+                                    <option value="harga-desc">Harga Desc</option>
+                                    <option value="nama-asc">A-Z</option>
+                                    <option value="nama-desc">Z-A</option>
+                                    <option value="id-asc">Reset</option>
+                                </Input>
+                                <Button color="primary" onClick={this.btSort}>Sort</Button>
+                            </div>
+                            <div style={{ float: "right", marginTop: "5px" }}>
+                                <Button outline color="warning" onClick={this.btReset}>Reset</Button>
+                                <Button color="primary" onClick={this.btSearch}>Filter</Button>
+                            </div>
+                        </div>
                         {this.printProducts()}
+                        </div>
                     </div>
                     <div>
                         <ButtonGroup>

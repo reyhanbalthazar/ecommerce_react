@@ -13,7 +13,7 @@ class NavbarComponent extends React.Component {
     }
     render() {
         return (
-            <Navbar expand="md">
+            <Navbar expand="sm" className="shadow mb-5 bg-white rounded">
                 <NavbarBrand>
                     <Link to="/">
                         <img alt="..." width="50px" src="https://www.sipayo.com/wp-content/uploads/2017/12/e-commerce.png" />
