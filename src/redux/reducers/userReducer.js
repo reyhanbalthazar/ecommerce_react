@@ -3,7 +3,8 @@ const INITIAL_STATE = {
     username: "",
     email: "",
     role: "",
-    status: ""
+    status: "",
+    cart: []
 }
 // Func userReducer :untuk mereturn data dari action.payload agar dapat disimpan oleh STATE REDUCER
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -17,8 +18,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
                 username: action.payload.username,
                 email: action.payload.email,
                 role: action.payload.role,
-                status: action.payload.status
+                status: action.payload.status,
+                cart: action.payload.cart
             }
+        case "UPDATE_CART_USER":
+            return { ...state, cart: action.payload }
         case "LOGOUT":
             return INITIAL_STATE
         default:

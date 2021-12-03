@@ -189,7 +189,7 @@ class ProductManagement extends React.Component {
                     btClose={() => this.setState({ modalAddOpen: !this.state.modalAddOpen })}
                     getData={this.getData}
                 />
-                <div className="row d-flex pt-5">
+                <div className="row d-flex">
                     <div className="col-1">
 
                     </div>

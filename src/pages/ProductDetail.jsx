@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Collapse, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { API_URL } from '../helper';
+import { updateUserCart } from '../redux/actions'
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -12,7 +14,8 @@ class ProductDetail extends React.Component {
             openType: false,
             qty: 1,
             selectedType: {},
-            toastOpen:false
+            toastOpen: false,
+            toastMsg: ""
         }
     }
 
@@ -48,12 +51,47 @@ class ProductDetail extends React.Component {
     }
 
     onBtInc = () => {
-        if(this.state.selectedType.qty){
+        if (this.state.selectedType.qty) {
             if (this.state.qty < this.state.selectedType.qty) {
                 this.setState({ qty: this.state.qty += 1 })
             } else {
-                this.setState({toastOpen:!this.state.toastOpen})
+                this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "Stok produk tidak cukup" })
             }
+        }
+    }
+
+    onBtAddToCart = () => {
+        let { selectedType, detail, qty } = this.state
+        if (this.state.selectedType.type) {
+            let dataCart = {
+                images: detail.images[0],
+                nama: detail.nama,
+                brand: detail.brand,
+                harga: detail.harga,
+                type: selectedType.type,
+                qty
+            }
+            // MENGGABUNGKAN DATA CART SEBELUMNYA DARI REDUCER, DENGAN DATACART BARU YANG AKAN DITAMBAHKAN
+            let temp = [...this.props.cart]
+            temp.push(dataCart)
+
+            if (this.props.iduser) {
+                axios.patch(`${API_URL}/dataUser/${this.props.iduser}`, {
+                    cart: temp
+                }).then((res) => {
+                    console.log("data cart", res.data)
+                    this.props.updateUserCart(res.data[0].cart)
+                }).catch((err) => {
+                    console.log(err)
+                })
+
+            }else {
+
+                this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "silahkan login terlebih dahulu" })
+            }
+
+        } else {
+            this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "Pilih tipe terlebih dahulu" })
         }
     }
 
@@ -61,13 +99,13 @@ class ProductDetail extends React.Component {
         return (
             <div>
                 <div>
-                    <Toast isOpen={this.state.toastOpen} style={{ position: "fixed", left:10 }}>
+                    <Toast isOpen={this.state.toastOpen} style={{ position: "fixed", right: 10 }}>
                         <ToastHeader icon="warning"
-                            toggle={() => this.setState({ toastOpen: false })}>
+                            toggle={() => this.setState({ toastOpen: false, toastMsg: "" })}>
                             Add to cart warning
                         </ToastHeader>
                         <ToastBody>
-                            Stok produk tidak cukup
+                            {this.state.toastMsg}
                         </ToastBody>
                     </Toast>
                 </div>
@@ -132,7 +170,14 @@ class ProductDetail extends React.Component {
     }
 }
 
-export default ProductDetail;
+const mapToProps = (state) => {
+    return {
+        cart: state.userReducer.cart,
+        iduser: state.userReducer.id
+    }
+}
+
+export default connect(mapToProps, {updateUserCart})(ProductDetail);
 
 // import axios from 'axios';
 // import React from 'react';
