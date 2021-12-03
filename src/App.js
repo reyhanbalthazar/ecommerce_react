@@ -11,6 +11,7 @@ import { loginAction, getProductsAction } from './redux/actions';
 import ProductsPage from './pages/ProductsPage';
 
 import ProductDetail from './pages/ProductDetail';
+import CartPage from './pages/CartPage';
 
 
 class App extends React.Component {
@@ -94,6 +95,7 @@ class App extends React.Component {
           <Route path="/productmanagement" element={<ProductManagement />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/product-detail" element={<ProductDetail />} />
+          <Route path="/cart-user" element={<CartPage />} />
         </Routes>
       </div>
     );

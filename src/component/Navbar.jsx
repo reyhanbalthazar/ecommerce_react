@@ -55,7 +55,7 @@ class NavbarComponent extends React.Component {
                                             ?
                                             <DropdownMenu>
                                                 <DropdownItem>
-                                                    <Link to="" style={{ color: "#2d3436", textDecoration: "none" }}>
+                                                    <Link to="/cart-user" style={{ color: "#2d3436", textDecoration: "none" }}>
                                                         Cart
                                                     </Link>
                                                 </DropdownItem>

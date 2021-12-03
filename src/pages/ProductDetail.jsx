@@ -80,7 +80,7 @@ class ProductDetail extends React.Component {
                     cart: temp
                 }).then((res) => {
                     console.log("data cart", res.data)
-                    this.props.updateUserCart(res.data[0].cart)
+                    this.props.updateUserCart(res.data.cart)
                 }).catch((err) => {
                     console.log(err)
                 })
