@@ -7,50 +7,7 @@
       "password": "123",
       "role": "admin",
       "status": "Active",
-      "cart": [
-        {
-          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810720_PE771385_S4.jpg",
-          "nama": "IDALINNEA D",
-          "brand": "IKEA",
-          "harga": 79000,
-          "type": "M",
-          "qty": 1
-        }
-      ]
-    },
-    {
-      "username": "test",
-      "email": "test@mail.com",
-      "password": "test",
-      "role": "user",
-      "status": "Active",
-      "id": 2,
-      "cart": [
-        {
-          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810720_PE771385_S4.jpg",
-          "nama": "IDALINNEA D",
-          "brand": "IKEA",
-          "harga": 79000,
-          "type": "M",
-          "qty": 1
-        },
-        {
-          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/557/0955765_PE804101_S4.jpg",
-          "nama": "HAUGA V.2",
-          "brand": "Mr. DYI",
-          "harga": 1200000,
-          "type": "White",
-          "qty": 1
-        },
-        {
-          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
-          "nama": "LINNEBÄCK",
-          "brand": "IKEA",
-          "harga": 995000,
-          "type": "Black",
-          "qty": 1
-        }
-      ]
+      "cart": []
     },
     {
       "username": "reyhan",
@@ -59,7 +16,26 @@
       "role": "user",
       "status": "Active",
       "id": 3,
-      "cart": []
+      "cart": [
+        {
+          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810720_PE771385_S4.jpg",
+          "nama": "IDALINNEA D",
+          "brand": "IKEA",
+          "harga": 79000,
+          "totalHarga": 79000,
+          "type": "M",
+          "qty": 1
+        },
+        {
+          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
+          "nama": "LINNEBÄCK",
+          "brand": "IKEA",
+          "harga": 995000,
+          "totalHarga": 995000,
+          "type": "Black",
+          "qty": 1
+        }
+      ]
     },
     {
       "username": "balthazar",
@@ -69,6 +45,34 @@
       "status": "Active",
       "id": 4,
       "cart": []
+    },
+    {
+      "username": "test",
+      "email": "test@mail.com",
+      "password": "test",
+      "role": "user",
+      "status": "Active",
+      "cart": [
+        {
+          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810720_PE771385_S4.jpg",
+          "nama": "IDALINNEA D",
+          "brand": "IKEA",
+          "harga": 79000,
+          "totalHarga": 237000,
+          "type": "M",
+          "qty": 3
+        },
+        {
+          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
+          "nama": "LINNEBÄCK",
+          "brand": "IKEA",
+          "harga": 995000,
+          "totalHarga": 995000,
+          "type": "White",
+          "qty": 1
+        }
+      ],
+      "id": 5
     }
   ],
   "products": [

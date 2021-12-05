@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Collapse, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { API_URL } from '../helper';
 import { updateUserCart } from '../redux/actions'
 
@@ -62,16 +63,17 @@ class ProductDetail extends React.Component {
 
     onBtAddToCart = () => {
         let { selectedType, detail, qty } = this.state
-        if (this.state.selectedType.type) {
+        if (selectedType.type) {
             let dataCart = {
                 images: detail.images[0],
                 nama: detail.nama,
                 brand: detail.brand,
                 harga: detail.harga,
+                totalHarga: detail.harga,
                 type: selectedType.type,
                 qty
             }
-            // MENGGABUNGKAN DATA CART SEBELUMNYA DARI REDUCER, DENGAN DATACART BARU YANG AKAN DITAMBAHKAN
+            // MENGGABUNGKAN DATA CART SEBELUMNYA DARI REDUCER, DENGAN DATA CART BARU YANG AKAN DITAMBAHKAN
             let temp = [...this.props.cart]
             temp.push(dataCart)
 
@@ -81,15 +83,13 @@ class ProductDetail extends React.Component {
                 }).then((res) => {
                     console.log("data cart", res.data)
                     this.props.updateUserCart(res.data.cart)
+                    
                 }).catch((err) => {
                     console.log(err)
                 })
-
-            }else {
-
+            } else {
                 this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "silahkan login terlebih dahulu" })
             }
-
         } else {
             this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "Pilih tipe terlebih dahulu" })
         }
@@ -160,7 +160,9 @@ class ProductDetail extends React.Component {
                                         </span>
                                     </span>
                                 </div>
-                                <Button type="button" color="warning" style={{ width: '100%' }} onClick={this.onBtAddToCart}>Add to cart</Button>
+                                <Link to="/cart-user">
+                                    <Button type="button" color="warning" style={{ width: '100%' }} onClick={this.onBtAddToCart}>Add to cart</Button>
+                                </Link>
                             </div>
                         </>
                     }
@@ -177,166 +179,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps, {updateUserCart})(ProductDetail);
-
-// import axios from 'axios';
-// import React from 'react';
-// import { API_URL } from '../helper';
-// import { Button, CardBody, Input, UncontrolledCollapse, Card, Collapse, Toast, ToastHeader, ToastBody } from 'reactstrap';
-
-
-// class ProductDetail extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             detailProduct: [],
-//             thumbnailIdx: null,
-//             selectedIdx: null,
-//             counter: 0,
-//             thumbnail: 0,
-//             openType: false,
-//             qty: 1,
-//             selectedType: {},
-//             toastOpen: false
-//         }
-//     }
-
-//     componentDidMount() {
-//         console.log("CEK URL DETAIL PAGE : ", window.location)
-//         axios.get(`${API_URL}/products${window.location.search}`)
-//             .then((response) => {
-//                 console.log(response.data)
-//                 this.setState({ detailProduct: response.data })
-//                 console.log(this.state.qty)
-//                 console.log(this.state.counter)
-//             }).catch((err) => {
-//                 console.log(err)
-//             })
-//     }
-
-//     handleInput = (value, propState) => {
-//         console.log(value, propState)
-//         this.setState({ [propState]: value })
-//     }
-
-//     increment = () => {
-//         if (this.state.selectedType.qty) {
-//             if (this.state.qty < this.state.selectedType.qty) {
-//                 this.setState({ qty: this.state.qty += 1 })
-//             } else {
-//                 this.setState({ toastOpen: !this.state.toastOpen })
-//             }
-//         }
-//         // this.setState({
-//         //     counter: this.state.counter + 1
-//         // });
-//     }
-
-//     decrement = () => {
-//         this.setState({
-//             counter: this.state.counter - 1
-//         });
-//     }
-
-//     printDetail = () => {
-//         return this.state.detailProduct.map((value, idx) => {
-//             return (
-//                 <div className="d-flex">
-//                     <div className="col m-3 border">
-//                         {value.images.map((val, index) => {
-//                             return <img src={val} width="100px" className="row m-3 border border-danger" alt={value.nama + idx}
-//                                 onClick={() => this.setState({ thumbnailIdx: index, selectedIdx: idx })} />
-//                         })}
-//                     </div>
-//                     <div className="border m-3">
-//                         {
-//                             this.state.selectedIdx == idx ?
-//                                 <img src={value.images[this.state.thumbnailIdx]} width="600rem" alt={value.nama + idx} />
-//                                 :
-//                                 <img src={value.images[0]} width="600rem" alt={value.nama + idx} />
-//                         }
-//                     </div>
-//                     <div className="container border m-3">
-//                         <div className="row m-3 border">
-//                             <h2>{value.nama}</h2>
-//                         </div>
-//                         <div className="row">
-//                             <h3>{value.kategori}</h3>
-//                         </div>
-//                         <div className="row m-3">
-//                             <h4>Rp. {value.harga}</h4>
-//                         </div>
-//                         <div className="row m-3">
-//                             <div style={{ borderBottom: '1.5px solid gray' }}>
-//                                 <div
-//                                     style={{ cursor: 'pointer', fontWeight: 'bold' }}
-//                                     onClick={() => this.setState({ openType: !this.state.openType })}>
-//                                     Type: {this.state.selectedType.type} {this.state.selectedType.qty}
-//                                 </div>
-//                                 <Collapse isOpen={this.state.openType}>
-//                                     {
-//                                         value.stock.map((item, index) => {
-//                                             return (
-//                                                 <div>
-//                                                     <Button outline color="secondary" size="sm"
-//                                                         style={{ width: '100%', border: 'none', textAlign: 'left' }}
-//                                                         onClick={() => this.setState({ selectedType: item, qty: 1 })}
-//                                                     > {item.type} : {item.qty}</Button>
-//                                                 </div>
-//                                             )
-//                                         })
-//                                     }
-//                                 </Collapse>
-//                             </div>
-//                         </div>
-//                         <div className="row m-3">
-//                             <p>{value.deskripsi}</p>
-//                         </div>
-//                         <div className="d-flex justify-content-between m-3">
-//                             <div>
-//                                 Jumlah :
-//                             </div>
-//                             <div>
-//                                 <Button onClick={this.decrement}>-</Button>
-//                                 <Input size="sm" placeholder="qty" value={this.state.counter} style={{ width: "40%", display: 'inline-block' }} />
-//                                 <Button onClick={this.increment}>+</Button>
-//                             </div>
-//                         </div>
-//                         <div className="border" >
-//                             <Button>Add To Cart</Button>
-//                         </div>
-//                     </div>
-//                 </div>
-//             )
-//         })
-//     }
-
-//     render() {
-//         return (
-//             <div className="rounded shadow container container-fluid d-flex justify-content-evenly mt-5">
-//                 <div>
-//                     <Toast isOpen={this.state.toastOpen} style={{ position: "fixed", left: 10 }}>
-//                         <ToastHeader icon="warning"
-//                             toggle={() => this.setState({ toastOpen: false })}>
-//                             Add to cart waning
-//                         </ToastHeader>
-//                         <ToastBody>
-//                             Stok produk tidak cukup
-//                         </ToastBody>
-//                     </Toast>
-//                 </div>
-//                 <div>
-//                     {this.printDetail()}
-//                 </div>
-//                 <div id="image">
-
-//                 </div>
-//                 <div className="px-5">
-
-//                 </div>
-//             </div>
-//         );
-//     }
-// }
-
-// export default ProductDetail;
+export default connect(mapToProps, { updateUserCart })(ProductDetail);

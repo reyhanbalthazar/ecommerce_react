@@ -8,9 +8,26 @@ class NavbarComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            openCollapse: false
+            openCollapse: false,
+            openToggle:false
         }
     }
+
+    toggle=()=>{
+        this.setState({
+            openToggle : !this.state.openToggle
+        })
+
+    }
+
+    totalQty = ()=>{
+        let total=0
+            this.props.cart.forEach((val) => {
+                total += val.qty   
+            });
+            return total
+    }
+
     render() {
         return (
             <Navbar expand="sm" className="shadow mb-5 bg-white rounded">
@@ -56,7 +73,7 @@ class NavbarComponent extends React.Component {
                                             <DropdownMenu>
                                                 <DropdownItem>
                                                     <Link to="/cart-user" style={{ color: "#2d3436", textDecoration: "none" }}>
-                                                        Cart
+                                                        Cart<span className="badge badge-danger" style={{color:"black"}}>{this.totalQty()}</span>
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
@@ -114,7 +131,8 @@ class NavbarComponent extends React.Component {
 const mapToProps = (state) => {
     return {
         username: state.userReducer.username,
-        role: state.userReducer.role
+        role: state.userReducer.role,
+        cart : state.userReducer.cart
     }
 }
 

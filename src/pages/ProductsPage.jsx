@@ -57,6 +57,10 @@ class ProductsPage extends React.Component {
         this.inSearchMaximum.value = null
     }
 
+    btRemove = () => {
+        
+    }
+
     btSort = () => {
         console.log(this.inSearchSort.value)
         if (this.inSearchSort.value == "harga-asc") {
@@ -134,10 +138,6 @@ class ProductsPage extends React.Component {
         );
     }
 }
-
-
-
-
 
 const mapToProps = ({ productsReducer }) => {
     console.table(productsReducer.productsList)
