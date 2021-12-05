@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Collapse, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Button, Collapse, Input, Nav, Toast, ToastBody, ToastHeader, Link } from 'reactstrap';
+import { Navigate } from 'react-router-dom';
 import { API_URL } from '../helper';
 import { updateUserCart } from '../redux/actions'
 
@@ -76,25 +76,25 @@ class ProductDetail extends React.Component {
             // MENGGABUNGKAN DATA CART SEBELUMNYA DARI REDUCER, DENGAN DATA CART BARU YANG AKAN DITAMBAHKAN
             let temp = [...this.props.cart]
             temp.push(dataCart)
-
             if (this.props.iduser) {
                 axios.patch(`${API_URL}/dataUser/${this.props.iduser}`, {
                     cart: temp
                 }).then((res) => {
                     console.log("data cart", res.data)
                     this.props.updateUserCart(res.data.cart)
-                    
+                    window.location = 'http://localhost:3000/cart-user';
                 }).catch((err) => {
                     console.log(err)
                 })
             } else {
                 this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "silahkan login terlebih dahulu" })
             }
+
         } else {
             this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "Pilih tipe terlebih dahulu" })
         }
     }
-
+    
     render() {
         return (
             <div>
@@ -160,9 +160,7 @@ class ProductDetail extends React.Component {
                                         </span>
                                     </span>
                                 </div>
-                                <Link to="/cart-user">
-                                    <Button type="button" color="warning" style={{ width: '100%' }} onClick={this.onBtAddToCart}>Add to cart</Button>
-                                </Link>
+                                    <Button type="button" color="warning" style={{ width: '100%' }} onClick={this.onBtAddToCart} >Add to cart</Button>
                             </div>
                         </>
                     }
