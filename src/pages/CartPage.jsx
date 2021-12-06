@@ -39,13 +39,13 @@ class CartPage extends React.Component {
             this.props.cart.splice(index, 1)
         }
         // console.log("qty", this.props.cart[index].qty)
-            axios.patch(`${API_URL}/dataUser/${this.props.iduser}`, { cart: this.props.cart })
-                .then((res) => {
-                    this.props.updateUserCart(res.data.cart)
-                }).catch((err) => {
-                    console.log(err)
-                })
-        }
+        axios.patch(`${API_URL}/dataUser/${this.props.iduser}`, { cart: this.props.cart })
+            .then((res) => {
+                this.props.updateUserCart(res.data.cart)
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
 
     onBtRemove = (index) => {
         this.props.cart.splice(index, 1)
@@ -116,7 +116,29 @@ class CartPage extends React.Component {
         this.props.cart.forEach((val) => {
             total += val.totalHarga
         });
-        return <h4 style={{ fontWeight: "bolder" }}>Rp {(total).toLocaleString()}</h4>
+        return total
+    }
+
+    // 
+
+    onBtCheckout = () => {
+        const d = new Date();
+        let data = {
+            iduser: this.props.iduser,
+            username: this.props.username,
+            invoice: `#INV${d.getTime()}`,
+            totalPayment: this.totalPayment() + parseInt(this.ongkir.value),
+            detail: this.props.cart,
+            notes: this.notes.value,
+            status: "Menunggu Konfirmasi"
+        }
+        console.log("Checkout", data)
+        axios.post(`${API_URL}/userTransactions`, data)
+            .then((res) => {
+
+            }).catch((err) => {
+                console.log(err)
+            })
     }
 
     render() {
@@ -136,14 +158,15 @@ class CartPage extends React.Component {
                                 <h4>TOTAL PAYMENT</h4>
                             </div>
                             <div>
-                                {this.totalPayment()}
+                                <h4 style={{ fontWeight: "bolder" }}>Rp {(this.totalPayment()).toLocaleString()}</h4>
                             </div>
                             <div className="">
                                 <div>
                                     <label>Biaya Pengiriman</label>
                                 </div>
                                 <div>
-                                    <input></input>
+                                    <Input type="text" id="ongkir" defaultValue="0" innerRef={elemen => this.ongkir = elemen} />
+
                                 </div>
                             </div>
                             <div className="">
@@ -151,11 +174,11 @@ class CartPage extends React.Component {
                                     <label>Notes</label>
                                 </div>
                                 <div>
-                                    <textarea></textarea>
+                                    <Input type="textarea" id="notes" innerRef={elemen => this.notes = elemen} />
                                 </div>
                             </div>
                             <div>
-                                <Button style={{ float: "right", marginRight: "20px", marginTop: "20px" }}>Checkout</Button>
+                                <Button style={{ float: "right", marginRight: "20px", marginTop: "20px" }} onClick={this.onBtCheckout}>Checkout</Button>
                             </div>
                         </div>
                     </div>
@@ -168,11 +191,11 @@ class CartPage extends React.Component {
     }
 }
 
-
 const mapToProps = (state) => {
     return {
         cart: state.userReducer.cart,
-        iduser: state.userReducer.id
+        iduser: state.userReducer.id,
+        username: state.userReducer.username
     }
 }
 

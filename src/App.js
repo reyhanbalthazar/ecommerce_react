@@ -13,6 +13,8 @@ import ProductsPage from './pages/ProductsPage';
 import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/CartPage';
 import NotFound from './pages/NotFound';
+import HistoryPage from './pages/HistoryPage';
+import TransactionAdminPage from './pages/TransactionManagement';
 
 
 class App extends React.Component {
@@ -97,14 +99,20 @@ class App extends React.Component {
           <Route path="/product-detail" element={<ProductDetail />} />
           {
             this.props.role == "user" ?
-              <Route path="/cart-user" element={<CartPage />} />
+              <>
+                <Route path="/cart-user" element={<CartPage />} />
+                <Route path="/history-user" element={<HistoryPage />} />
+              </>
               :
               this.props.role == "admin" ?
-                <Route path="/productmanagement" element={<ProductManagement />} />
+                <>
+                  <Route path="/productmanagement" element={<ProductManagement />} />
+                  <Route path="/transactionmanagement" element={<TransactionAdminPage />} />
+                </>
                 :
                 <Route path="*" element={<NotFound />} />
-              }
-              <Route path="*" element={<NotFound />} />
+          }
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     );
