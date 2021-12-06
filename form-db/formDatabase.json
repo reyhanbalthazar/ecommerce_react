@@ -368,31 +368,23 @@
   ],
   "userTransactions": [
     {
-      "iduser": 3,
-      "username": "reyhan",
-      "invoice": "#INV1638774753366",
-      "totalPayment": 2637000,
+      "iduser": 5,
+      "username": "test",
+      "invoice": "#INV1638775330694",
+      "date": "12/6/2021",
+      "totalPayment": 1300000,
       "detail": [
-        {
-          "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810720_PE771385_S4.jpg",
-          "nama": "IDALINNEA D",
-          "brand": "IKEA",
-          "harga": 79000,
-          "totalHarga": 237000,
-          "type": "M",
-          "qty": 3
-        },
         {
           "images": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/557/0955765_PE804101_S4.jpg",
           "nama": "HAUGA V.2",
           "brand": "Mr. DYI",
           "harga": 1200000,
-          "totalHarga": 2400000,
-          "type": "White",
-          "qty": 2
+          "totalHarga": 1200000,
+          "type": "Black",
+          "qty": 1
         }
       ],
-      "notes": "",
+      "notes": "test date",
       "status": "Menunggu Konfirmasi",
       "id": 1
     }

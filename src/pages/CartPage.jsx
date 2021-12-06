@@ -127,6 +127,7 @@ class CartPage extends React.Component {
             iduser: this.props.iduser,
             username: this.props.username,
             invoice: `#INV${d.getTime()}`,
+            date : d.toLocaleDateString(),
             totalPayment: this.totalPayment() + parseInt(this.ongkir.value),
             detail: this.props.cart,
             notes: this.notes.value,
@@ -166,7 +167,6 @@ class CartPage extends React.Component {
                                 </div>
                                 <div>
                                     <Input type="text" id="ongkir" defaultValue="0" innerRef={elemen => this.ongkir = elemen} />
-
                                 </div>
                             </div>
                             <div className="">
