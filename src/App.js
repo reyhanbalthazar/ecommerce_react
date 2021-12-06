@@ -12,6 +12,7 @@ import ProductsPage from './pages/ProductsPage';
 
 import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/CartPage';
+import NotFound from './pages/NotFound';
 
 
 class App extends React.Component {
@@ -92,14 +93,28 @@ class App extends React.Component {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/form" element={<Form />} />
-          <Route path="/productmanagement" element={<ProductManagement />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/product-detail" element={<ProductDetail />} />
-          <Route path="/cart-user" element={<CartPage />} />
+          {
+            this.props.role == "user" ?
+              <Route path="/cart-user" element={<CartPage />} />
+              :
+              this.props.role == "admin" ?
+                <Route path="/productmanagement" element={<ProductManagement />} />
+                :
+                <Route path="*" element={<NotFound />} />
+              }
+              <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     );
   }
 }
 
-export default connect(null, { loginAction, getProductsAction })(App);
+const mapToProps = (state) => {
+  return {
+    role: state.userReducer.role
+  }
+}
+
+export default connect(mapToProps, { loginAction, getProductsAction })(App);

@@ -82,7 +82,7 @@ class ProductDetail extends React.Component {
                 }).then((res) => {
                     console.log("data cart", res.data)
                     this.props.updateUserCart(res.data.cart)
-                    window.location = 'http://localhost:3000/cart-user';
+                    window.location = 'http://localhost:3000/cart-user'; 
                 }).catch((err) => {
                     console.log(err)
                 })

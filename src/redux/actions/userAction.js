@@ -59,3 +59,22 @@ export const updateUserCart = (data) => {
         payload: data
     }
 }
+
+// export const updateUserCart = (data, iduser) => {
+//     return async (dispatch) => {
+//         try {
+
+//             let res = await axios.patch(`${API_URL}/dataUser/${iduser}`, {
+//                 cart: data
+//             })
+
+//             dispatch({
+//                 type: "UPDATE_CART_USER",
+//                 payload: res.data.cart
+//             })
+
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
+// }
