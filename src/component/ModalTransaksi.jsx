@@ -73,7 +73,7 @@ const ModalTransaksi = (props) => {
                                     <p style={{ fontWeight: "bold" }}>Rincian Pembayaran</p>
                                     <span className="d-flex justify-content-between">
                                         <p>Total Harga barang {totalQty()}</p>
-                                        <p style={{ fontWeight: "bold", color: "#3498db" }}>Rp. {((props.dataTransaksi.totalPayment) - (props.dataTransaksi.ongkir)).toLocaleString()}</p>
+                                        <p style={{ fontWeight: "bold", color: "#3498db" }}>Rp. {(props.dataTransaksi.totalPayment).toLocaleString()}</p>
                                     </span>
                                     <span className="d-flex justify-content-between">
                                         <p>Total Ongkos Kirim</p>
@@ -81,7 +81,7 @@ const ModalTransaksi = (props) => {
                                     </span>
                                     <span className="d-flex justify-content-between">
                                         <p>Total Bayar</p>
-                                        <p style={{ fontWeight: "bold", color: "#3498db" }}>Rp.  {props.dataTransaksi.totalPayment.toLocaleString()}</p>
+                                        <p style={{ fontWeight: "bold", color: "#3498db" }}>Rp.  {((props.dataTransaksi.totalPayment) + (props.dataTransaksi.ongkir)).toLocaleString()}</p>
                                     </span>
                                 </Card>
                             </div>
