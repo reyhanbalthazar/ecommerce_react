@@ -77,7 +77,7 @@ class NavbarComponent extends React.Component {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    <Link to="" style={{ color: "#2d3436", textDecoration: "none" }}>
+                                                    <Link to="history-user" style={{ color: "#2d3436", textDecoration: "none" }}>
                                                         Transactions
                                                     </Link>
                                                 </DropdownItem>

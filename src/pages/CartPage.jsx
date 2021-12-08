@@ -12,6 +12,7 @@ class CartPage extends React.Component {
             detail: [],
             paymentItem: [900000, 700000],
             totalPayment: 0,
+            ongkir:0
         }
     }
 
@@ -22,7 +23,6 @@ class CartPage extends React.Component {
     onBtInc = (index) => {
         this.props.cart[index].qty += 1
         this.props.cart[index].totalHarga += this.props.cart[index].harga
-        console.log("qty", this.props.cart[index].totalHarga)
         axios.patch(`${API_URL}/dataUser/${this.props.iduser}`, { cart: this.props.cart })
             .then((res) => {
                 this.props.updateUserCart(res.data.cart)
@@ -116,30 +116,45 @@ class CartPage extends React.Component {
         this.props.cart.forEach((val) => {
             total += val.totalHarga
         });
-        return total
+        return total + this.state.ongkir
     }
 
-    // 
-
     onBtCheckout = () => {
-        const d = new Date();
-        let data = {
+        let date = new Date()
+        axios.post(`${API_URL}/userTransactions`, {
             iduser: this.props.iduser,
             username: this.props.username,
-            invoice: `#INV${d.getTime()}`,
-            date : d.toLocaleDateString(),
-            totalPayment: this.totalPayment() + parseInt(this.ongkir.value),
-            detail: this.props.cart,
+            invoice: `#INV${date.getTime()}`,
+            date: date.toLocaleString(),
             notes: this.notes.value,
+            totalPayment: this.totalPayment(),
+            ongkir: parseInt(this.state.ongkir),
+            detail: [...this.props.cart],
             status: "Menunggu Konfirmasi"
-        }
-        console.log("Checkout", data)
-        axios.post(`${API_URL}/userTransactions`, data)
-            .then((res) => {
+        }).then((res) => {
+            this.props.updateUserCart([], this.props.iduser)
+            this.setState({ ongkir : 0})
+        }).catch((err) => {
+            console.log(err)
+        })
+        // const d = new Date();
+        // let data = {
+        //     iduser: this.props.iduser,
+        //     username: this.props.username,
+        //     invoice: `#INV${d.getTime()}`,
+        //     date : d.toLocaleDateString(),
+        //     totalPayment: this.totalPayment() + parseInt(this.ongkir.value),
+        //     detail: this.props.cart,
+        //     notes: this.notes.value,
+        //     status: "Menunggu Konfirmasi"
+        // }
+        // console.log("Checkout", data)
+        // axios.post(`${API_URL}/userTransactions`, data)
+        //     .then((res) => {
 
-            }).catch((err) => {
-                console.log(err)
-            })
+        //     }).catch((err) => {
+        //         console.log(err)
+        //     })
     }
 
     render() {
@@ -166,7 +181,8 @@ class CartPage extends React.Component {
                                     <label>Biaya Pengiriman</label>
                                 </div>
                                 <div>
-                                    <Input type="text" id="ongkir" defaultValue="0" innerRef={elemen => this.ongkir = elemen} />
+                                    {/* <Input type="text" id="ongkir" defaultValue="0" innerRef={elemen => this.ongkir = elemen} /> */}
+                                    <Input type="text" id="ongkir" defaultValue="0" onChange={(e) => this.setState({ ongkir: parseInt(e.target.value) })}/>
                                 </div>
                             </div>
                             <div className="">
