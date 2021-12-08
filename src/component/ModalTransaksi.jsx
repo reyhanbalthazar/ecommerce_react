@@ -7,7 +7,7 @@ const ModalTransaksi = (props) => {
 
     const totalQty = () => {
         let total = 0
-        props.cart.forEach((val) => {
+        props.dataTransaksi.detail.forEach((val) => {
             total += val.qty
         });
         return total
@@ -97,11 +97,4 @@ const ModalTransaksi = (props) => {
     )
 }
 
-const mapToProps = (state) => {
-    return {
-        cart: state.userReducer.cart
-    }
-}
-
-
-export default connect(mapToProps)(ModalTransaksi) ;
+export default ModalTransaksi ;
