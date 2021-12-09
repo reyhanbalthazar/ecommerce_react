@@ -56,7 +56,11 @@ class HistoryPage extends React.Component {
                     <div className="col-md-7 d-flex flex-column justify-content-center">
                         <h4 style={{ fontWeight: "bolder" }}>{value.detail[0].nama}</h4>
                         <p className="text-muted">{value.detail[0].qty} x Rp. {value.detail[0].harga.toLocaleString()}</p>
-                        <a className="text-muted" style={{ cursor: "pointer" }}>+{value.detail.length - 1} Produk Lainnya</a>
+                        {
+                            value.detail.length > 1 ?
+                            <a className="text-muted" style={{ cursor: "pointer" }}>+{value.detail.length - 1} Produk Lainnya</a>
+                            : <p> </p>
+                        }
                     </div>
                     <div className="col-md-4">
                         <p className="text-muted">Total Belanja</p>

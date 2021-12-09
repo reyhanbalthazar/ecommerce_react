@@ -12,7 +12,7 @@ class CartPage extends React.Component {
             detail: [],
             paymentItem: [900000, 700000],
             totalPayment: 0,
-            ongkir:0
+            ongkir: 0
         }
     }
 
@@ -133,7 +133,7 @@ class CartPage extends React.Component {
             status: "Menunggu Konfirmasi"
         }).then((res) => {
             this.props.updateUserCart([], this.props.iduser)
-            this.setState({ ongkir : 0})
+            this.setState({ ongkir: 0 })
         }).catch((err) => {
             console.log(err)
         })
@@ -181,8 +181,7 @@ class CartPage extends React.Component {
                                     <label>Biaya Pengiriman</label>
                                 </div>
                                 <div>
-                                    {/* <Input type="text" id="ongkir" defaultValue="0" innerRef={elemen => this.ongkir = elemen} /> */}
-                                    <Input type="text" id="ongkir" defaultValue="0" onChange={(e) => this.setState({ ongkir: parseInt(e.target.value) })}/>
+                                    <Input type="text" id="ongkir" defaultValue="0" onChange={(e) => this.setState({ ongkir: parseInt(e.target.value) })} />
                                 </div>
                             </div>
                             <div className="">
@@ -190,7 +189,7 @@ class CartPage extends React.Component {
                                     <label>Notes</label>
                                 </div>
                                 <div>
-                                    <Input type="textarea" id="notes" innerRef={elemen => this.notes = elemen} />
+                                    <Input type="textarea" id="notes"  innerRef={elemen => this.notes = elemen} />
                                 </div>
                             </div>
                             <div>
