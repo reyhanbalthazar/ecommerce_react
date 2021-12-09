@@ -15,11 +15,12 @@ const ModalTransaksi = (props) => {
 
     const printDetailProduk = () => {
         return props.dataTransaksi.detail.map((value, index) => {
+            
             return (
                 <Card>
                     <div className="row">
                         <div className="col-md-2">
-                            <img style={{margin:"auto", display:"block"}} src={props.dataTransaksi.detail[index].images} width="100%" />
+                            <img style={{ margin: "auto", display: "block" }} src={props.dataTransaksi.detail[index].images} width="100%" />
                         </div>
                         <div className="col-md-6">
                             {/* NAMA, QTY, dan HARGA per pcs */}
@@ -67,7 +68,9 @@ const ModalTransaksi = (props) => {
                                 </Card>
                                 <Card className="px-4 py-3 mt-2 rounded" style={{ border: "none" }}>
                                     <p style={{ fontWeight: "bold" }}>Detail Produk</p>
-                                    {printDetailProduk()}
+                                    <div style={{ height: "30vh", overflow: "auto", overflowX:"hidden"}}>
+                                        {printDetailProduk()}
+                                    </div>
                                 </Card>
                                 <Card className="px-4 py-3 mt-2 rounded" style={{ border: "none" }}>
                                     <p style={{ fontWeight: "bold" }}>Rincian Pembayaran</p>
@@ -88,6 +91,7 @@ const ModalTransaksi = (props) => {
                             <div className="col-md-4 p-3">
                                 <Button outline size="lg" className="my-2" style={{ width: "100%" }}>Chat Penjual</Button>
                                 <Button outline size="lg" style={{ width: "100%" }}>Bantuan</Button>
+                                <Button outline color="danger" style={{ width: "100%" }} onClick={() => props.onBtCancel(props.dataTransaksi.id)}>Batal</Button>
                             </div>
                         </div>
                         : <p>No Data</p>
@@ -97,4 +101,4 @@ const ModalTransaksi = (props) => {
     )
 }
 
-export default ModalTransaksi ;
+export default ModalTransaksi;
