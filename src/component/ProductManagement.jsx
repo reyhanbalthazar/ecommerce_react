@@ -39,6 +39,7 @@ class ProductManagement extends React.Component {
 
     componentDidMount() {
         this.getData();
+        console.log("name", this.state.detailProduk.brand_name)
     }
 
     btDetail = (idx) => {
@@ -46,7 +47,7 @@ class ProductManagement extends React.Component {
     }
 
     getData = () => {
-        axios.get(`http://localhost:2000/products/`)
+        axios.get(`${API_URL}/products/`)
             .then((response) => {
                 console.log(response.data)
                 this.setState({ products: response.data })
@@ -58,12 +59,12 @@ class ProductManagement extends React.Component {
 
     onBtAdd = () => {
         let data = {
-            nama: this.inNama.value,
-            brand: this.inBrand.value,
-            deskripsi: this.inDeskripsi.value,
-            kategori: this.inKategori.value,
-            harga: parseInt(this.inHarga.value),
-            stock: this.state.stock,
+            name: this.inNama.value,
+            idbrand: this.inBrand.value,
+            description: this.inDeskripsi.value,
+            idcategory: this.inKategori.value,
+            price: parseInt(this.inHarga.value),
+            stocks: this.state.stock,
             images: this.state.images
         }
         console.log(this.state.images)
@@ -81,7 +82,8 @@ class ProductManagement extends React.Component {
         }
     }
 
-    onBtDelete = (id) => {
+    onBtDelete = (idx) => {
+        let id = this.props.productsList[idx].idproduct
         axios.delete(`${API_URL}/products/${id}`)
             .then((res) => {
                 this.props.getProductsAction();
@@ -109,27 +111,27 @@ class ProductManagement extends React.Component {
             return (
                 <tr>
                     <td>{page > 1 ? (page - 1) * selectedPage + idx + 1 : idx + 1}</td>
-                    <td>{value.nama}</td>
-                    <td>{value.brand}</td>
-                    <td>{value.kategori}</td>
+                    <td>{value.name}</td>
+                    <td>{value.brand_name}</td>
+                    <td>{value.category}</td>
                     <td style={{ width: '20vw', textAlign: 'center' }}>
                         {
                             this.state.selectedIdx == idx ?
-                                <img src={value.images[this.state.thumbnailIdx]} width="100px" alt={value.nama + idx} />
+                                <img src={value.images[this.state.thumbnailIdx].url} width="100px" alt={value.name + idx} />
                                 :
-                                <img src={value.images[0]} width="100px" alt={value.nama + idx} />
+                                <img src={value.images[0].url} width="100px" alt={value.name + idx} />
                         }
                         <div>
                             {value.images.map((val, index) => {
-                                return <img src={val} width="50px" alt={value.nama + idx}
+                                return <img src={val.url} width="50px" alt={value.name + idx}
                                     onClick={() => this.setState({ thumbnailIdx: index, selectedIdx: idx })} />
                             })}
                         </div>
                     </td>
-                    <td>{value.harga.toLocaleString()}</td>
+                    <td>{value.price.toLocaleString()}</td>
                     <td>
                         <Button type="button" size="sm" color="warning" onClick={() => this.setState({ detailProduk: value, modalEditOpen: !this.state.modalEditOpen })}>Detail</Button>
-                        <Button size="sm" color="danger" onClick={() => this.onBtDelete(value.id)}>Delete</Button>
+                        <Button size="sm" color="danger" onClick={() => this.onBtDelete(idx)}>Delete</Button>
                     </td>
                 </tr>
             )
@@ -177,6 +179,7 @@ class ProductManagement extends React.Component {
     }
 
     render() {
+        console.log("productlist",this.props.productsList)
         return (
             <div>
                 <ModalDetail

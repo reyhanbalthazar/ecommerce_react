@@ -4,8 +4,7 @@ import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label,
 import { loginAction } from '../redux/actions';
 import { connect } from 'react-redux'
 import { Navigate } from 'react-router-dom'
-
-const API_URL = "http://localhost:2000"
+import { API_URL } from '../helper';
 
 class Form extends React.Component {
     constructor(props) {
@@ -56,20 +55,27 @@ class Form extends React.Component {
         } else {
             if (this.passwordRegis.value === this.confPasswordRegis.value) {
                 if (this.emailRegis.value.includes("@")) {
-                    axios.post(`${API_URL}/dataUser`, {
+                    axios.post(`${API_URL}/users/regis`, {
                         username: this.usernameRegis.value,
                         email: this.emailRegis.value,
-                        password: this.passwordRegis.value,
-                        role: "user",
-                        status: "Active",
-                        cart: []
+                        password: this.passwordRegis.value
                     }).then((response) => {
-                        this.setState({
-                            toastOpen: true,
-                            toastHeader: "Register Status",
-                            toastIcon: "success",
-                            toastMessage: "Registrasi Berhasil ✅"
-                        })
+                        console.log(response.data)
+                        if(response.data.success){
+                            this.setState({
+                                toastOpen: true,
+                                toastHeader: "Register Status",
+                                toastIcon: "success",
+                                toastMessage: "Registrasi Berhasil ✅"
+                            })
+                        } else {
+                            this.setState({
+                                toastOpen: true,
+                                toastHeader: "Register Status",
+                                toastIcon: "warning",
+                                toastMessage: "Registrasi Gagal ❌"
+                            })
+                        }
                     }).catch((err) => {
                         console.log(err)
                     })
@@ -126,7 +132,7 @@ class Form extends React.Component {
     }
 
     render() {
-        if (this.props.iduser) {
+        if (this.props.username) {
             // redirect ke page yang dituju
             return <Navigate to="/" />
         }
@@ -272,7 +278,7 @@ class Form extends React.Component {
 
 const mapToProps = (state) => {
     return {
-        iduser: state.userReducer.id
+        username: state.userReducer.username
     }
 }
 

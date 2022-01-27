@@ -22,15 +22,42 @@ import { API_URL } from "../../helper"
 export const loginAction = (email, password) => {
     return async (dispatch) => {
         try {
-            let response = await axios.get(`${API_URL}/dataUser?email=${email}&password=${password}`)
-            if (response.data.length > 0) {
-                localStorage.setItem("data", JSON.stringify(response.data[0]))
+            let response = await axios.post(`${API_URL}/users/login`, {
+                email, password
+            })
+            if (response.data.success) {
+                localStorage.setItem("data", response.data.dataLogin.token)
                 // dispatch : meneruskan data kereducer
                 dispatch({
                     type: "LOGIN_SUCCESS",
-                    payload: response.data[0]
+                    payload: response.data.dataLogin
                 })
-                return { success: true }
+                return { success: response.data.success }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const keepAction = () => {
+    return async (dispatch) => {
+        try {
+            let token = localStorage.getItem("data");
+            if (token) {
+                let res = await axios.get(`${API_URL}/users/keep`, {
+                    headers: {
+                        'Authorization':`Bearer ${token}`
+                    }
+                })
+                if (res.data.success) {
+                    localStorage.setItem("data", res.data.dataLogin.token)
+                    dispatch({
+                        type: "LOGIN_SUCCESS",
+                        payload: res.data.dataLogin
+                    })
+                }
+                return { success: res.data.success }
             }
         } catch (error) {
             console.log(error)
@@ -59,22 +86,3 @@ export const updateUserCart = (data) => {
         payload: data
     }
 }
-
-// export const updateUserCart = (data, iduser) => {
-//     return async (dispatch) => {
-//         try {
-
-//             let res = await axios.patch(`${API_URL}/dataUser/${iduser}`, {
-//                 cart: data
-//             })
-
-//             dispatch({
-//                 type: "UPDATE_CART_USER",
-//                 payload: res.data.cart
-//             })
-
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-// }

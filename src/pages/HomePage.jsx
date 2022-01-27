@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux'
-import { Carousel, CarouselIndicators, CarouselItem, CarouselCaption, CarouselControl, UncontrolledCarousel } from 'reactstrap'
+import { UncontrolledCarousel } from 'reactstrap'
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -65,7 +65,7 @@ class HomePage extends React.Component {
                             </div>
                         </div>
                         <div className="col-md-5" style={{ marginRight: "auto" }}>
-                            <img width="500px" height="500px" src={value.images[0]} />
+                            <img alt='...' width="500px" height="500px" src={value.images[0]} />
                         </div>
                     </div>
                     {/*  END OF FEATURETTE 1 */}

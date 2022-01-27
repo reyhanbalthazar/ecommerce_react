@@ -1,21 +1,23 @@
 import axios from 'axios';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { API_URL } from '../helper';
+
 
 class ModalAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            stock: [],
+            stocks: [],
             images: []
         }
     }
 
     onBtAddStock = () => {
         // let tempStock = [...this.state.stock]
-        this.state.stock.push({ id: null, type: null, qty: null })
-        this.setState({ stock: this.state.stock })
+        this.state.stocks.push({ id: null, type: null, qty: null })
+        this.setState({ stock: this.state.stocks })
     }
 
     // menambah penampung data image pada state.images
@@ -25,8 +27,8 @@ class ModalAdd extends React.Component {
     }
 
     printStock = () => {
-        if (this.state.stock.length > 0) {
-            return this.state.stock.map((item, index) => {
+        if (this.state.stocks.length > 0) {
+            return this.state.stocks.map((item, index) => {
                 return <Row>
                     <Col>
                         <Input type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
@@ -60,8 +62,8 @@ class ModalAdd extends React.Component {
     }
 
     onBtDeleteStock = (index) => {
-        this.state.stock.splice(index, 1)
-        this.setState({ stock: this.state.stock })
+        this.state.stocks.splice(index, 1)
+        this.setState({ stocks: this.state.stocks })
     }
 
     onBtDeleteImage = (index) => {
@@ -77,35 +79,35 @@ class ModalAdd extends React.Component {
     }
 
     handleType = (e, index) => {
-        let temp = [...this.state.stock]
+        let temp = [...this.state.stocks]
         temp[index].type = e.target.value;
-        this.setState({ stock: temp })
+        this.setState({ stocks: temp })
     }
 
     handleStock = (e, index) => {
-        let temp = [...this.state.stock]
+        let temp = [...this.state.stocks]
         temp[index].qty = parseInt(e.target.value)
-        this.setState({ stock: temp })
+        this.setState({ stocks: temp })
     }
 
     onBtCancel = () => {
-        this.setState({ stock: [], images: [] })
+        this.setState({ stocks: [], images: [] })
         // fungsi untuk close modal
         this.props.btClose()
     }
 
     btSubmit = () => {
         let data = {
-            nama: this.inNama.value,
-            brand: this.inBrand.value,
-            deskripsi: this.inDeskripsi.value,
-            kategori: this.inKategori.value,
-            harga: parseInt(this.inHarga.value),
-            stock: this.state.stock,
+            name: this.inNama.value,
+            idbrand: this.inBrand.value,
+            description: this.inDeskripsi.value,
+            idcategory: this.inKategori.value,
+            price: parseInt(this.inHarga.value),
+            stocks: this.state.stocks,
             images: this.state.images
         }
-        console.log(this.state.images)
-        if (data.nama == "" || data.brand == "" || data.deskripsi == "" || data.kategori == "" || data.stock.length == 0 || data.images.length == 0) {
+        console.log(data)
+        if (data.nama == "" || data.brand == "" || data.deskripsi == "" || data.kategori == "" || data.stocks.length == 0 || data.images.length == 0) {
             alert("Isi semua form")
         } else {
             axios.post(`${API_URL}/products`, data)
@@ -141,14 +143,24 @@ class ModalAdd extends React.Component {
                     <Row>
                         <Col>
                             <FormGroup>
-                                <Label for="textBrand">Brand</Label>
-                                <Input type="text" id="textBrand" innerRef={elemen => this.inBrand = elemen} />
+                                <Label for="selectBrand">Brand</Label>
+                                <Input type="select" id="selectBrand" innerRef={elemen => this.inBrand = elemen} defaultValue={null}>
+                                    <option value={null} >Choose...</option>
+                                    {
+                                        this.props.brandList.map((val, index) => <option value={val.idbrand} key={val.idbrand}>{val.brand}</option>)
+                                    }
+                                </Input>
                             </FormGroup>
                         </Col>
                         <Col>
                             <FormGroup>
-                                <Label for="textKategori">Kategori</Label>
-                                <Input type="text" id="textKategori" innerRef={elemen => this.inKategori = elemen} />
+                            <Label for="textKategori">Kategori</Label>
+                                <Input type="select" id="selectBrand" innerRef={elemen => this.inKategori = elemen}>
+                                    <option value={null} >Choose...</option>
+                                    {
+                                        this.props.categoryList.map((val, index) => <option value={val.idcategory} key={val.idcategory}>{val.category}</option>)
+                                    }
+                                </Input>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -177,4 +189,12 @@ class ModalAdd extends React.Component {
     }
 }
 
-export default ModalAdd;
+
+const mapToProps = ({ productsReducer }) => {
+    return {
+        brandList: productsReducer.brand,
+        categoryList: productsReducer.category
+    }
+}
+
+export default connect(mapToProps)(ModalAdd);

@@ -21,11 +21,11 @@ class NavbarComponent extends React.Component {
     }
 
     totalQty = ()=>{
-        let total=0
-            this.props.cart.forEach((val) => {
-                total += val.qty   
-            });
-            return total
+        // let total=0
+        //     this.props.cart.forEach((val) => {
+        //         total += val.qty   
+        //     });
+        //     return total
     }
 
     render() {
@@ -103,7 +103,7 @@ class NavbarComponent extends React.Component {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    <Link to="/productmanagement" style={{ color: "#2d3436" }} className="nav-link">
+                                                    <Link to="/transactionmanagement" style={{ color: "#2d3436" }} className="nav-link">
                                                         Transactions Management
                                                     </Link>
                                                 </DropdownItem>
