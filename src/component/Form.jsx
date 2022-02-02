@@ -31,7 +31,7 @@ class Form extends React.Component {
     }
 
     componentDidMount() {
-        this.getData();
+        // this.getData();
     }
 
     getData = () => {
@@ -134,7 +134,7 @@ class Form extends React.Component {
     render() {
         if (this.props.username) {
             // redirect ke page yang dituju
-            return <Navigate to="/" />
+            return <Navigate to="/" />  
         }
         return (
             <Container className="p-5">

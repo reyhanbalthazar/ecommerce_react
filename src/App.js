@@ -15,6 +15,7 @@ import CartPage from './pages/CartPage';
 import NotFound from './pages/NotFound';
 import HistoryPage from './pages/HistoryPage';
 import TransactionAdminPage from './pages/TransactionManagement';
+import VerificationPage from './pages/VerificationPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class App extends React.Component {
           <Route path="/form" element={<Form />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/product-detail" element={<ProductDetail />} />
+          <Route path="/verification/:token" element={<VerificationPage />} />
           {
             this.props.role === "user" ?
               <>

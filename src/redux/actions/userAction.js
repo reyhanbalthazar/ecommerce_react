@@ -47,7 +47,7 @@ export const keepAction = () => {
             if (token) {
                 let res = await axios.get(`${API_URL}/users/keep`, {
                     headers: {
-                        'Authorization':`Bearer ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 })
                 if (res.data.success) {
@@ -56,8 +56,33 @@ export const keepAction = () => {
                         type: "LOGIN_SUCCESS",
                         payload: res.data.dataLogin
                     })
+                    return { success: res.data.success }
                 }
-                return { success: res.data.success }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const verifyAction = () => {
+    return async (dispatch) => {
+        try {
+            let token = window.location.pathname.split('/')[2]
+            if (token) {
+                let res = await axios.get(`${API_URL}/users/verify`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                if (res.data.success) {
+                    localStorage.setItem("data", res.data.dataVerify.token)
+                    dispatch({
+                        type: "LOGIN_SUCCESS",
+                        payload: res.data.dataVerify
+                    })
+                    return { success: res.data.success }
+                }
             }
         } catch (error) {
             console.log(error)
@@ -86,3 +111,4 @@ export const updateUserCart = (data) => {
         payload: data
     }
 }
+
